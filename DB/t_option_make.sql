@@ -1,0 +1,7 @@
+CREATE TABLE option
+(option_id	int	NOT NULL,
+ques_id	int	REFERENCES question(ques_id),
+option_contents1	varchar NOT NULL,
+option_contents2	varchar NOT NULL,
+option_contents3	varchar NOT NULL,
+PRIMARY KEY(option_id, ques_id));
