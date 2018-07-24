@@ -1,0 +1,170 @@
+FORMAT: 1A
+HOST: http://private-ebed2-bartender4.apiary-mock.com
+
+# API_bartender
+
+「てのひらバーテンダー」のAPIです。
+
+## ユーザ [/users]
+
+### 新規登録 [POST]
+
+#### 処理概要
+
+* ユーザを新しく登録する。
+
++ Request (application/json)
+
+    + body
+
+            {
+                "user_id":{
+                    "user_name": "user",
+                    "login_id": "1234",
+                    "login_pw": "abc123"
+                }
+            }
+
++ Response 201 (application/json)   
+
+    + body
+
+            {
+                "bool":true
+            }
+
++ Response 400 (application/json) 
+
+    + body
+
+            {
+                "bool": false
+            }
+
+## ログイン [/login]
+
+### ログイン情報取得 [POST]
+
++ Request (application/json)
+
+    + body
+
+            {
+                "user_id":{
+                    "login_id": "12234",
+                    "login_pw": "abc123"
+                }
+            }
+
++ Response 201 (application/json)   
+
+    + body
+
+            {
+                "bool":true
+            }
+                
++ Response 400 (application/json) 
+
+    + body
+
+            {
+                "bool": false
+            }
+    
+
+## 質問 [/question/{ques_id}]
+
+### 質問表示 [POST]
+
++ Parameters
+    + ques_id: 1 (number)
+
++ Request (application/json)
+
+    + body
+
+            {
+                "answer_id":[
+                    "option_contents1": "赤”, 
+                    "option_contents2": "青”, 
+                    "option_contents3": "黄色”
+                ]
+            }
+
+
++ Response 201 (application/json)
+
+    + body
+
+            {
+                "ques_id":{
+                    "ques_contens": "好きな色は何ですか？",
+                    "option_id":[
+                            "option_contents1": "赤”,
+                            "option_contents2": "青,
+                            "option_contents3": "黄色”
+                        ]
+                }
+            }
+
+
+## カクテル [/alcohols]
+
+### カクテル詳細 [POST]
+
++ Request (application/json)
+
+    + body
+
+            {
+                "alco_name": "ジン・トニック"
+            }
+
++ Response 201 (application/json)
+
+    + body
+
+            {
+                "alco_id":{
+                    "type_name": "カクテルの説明"
+                    "alco_name": "ジン・トニック"
+            }
+
+## 履歴 [/history]
+
+### 履歴 [GET]
+
++ Response 200 (application/json)
+
+    + body
+
+            {
+                "user_id":{
+                    "leaning_data": "履歴一覧"
+                }
+            }
+
+## レビュー [/review]
+
+### レビュー [POST]
+
++ Request (application/json)
+
+    + body
+
+            {
+                "answer_id":[
+                    "option_contents1": "赤”, 
+                    "option_contents2": "青”, 
+                    "option_contents3": "黄色”
+                ]
+            }
+
++ Response 201 (application/json)   
+
+    + body
+
+            {
+                "message":"thank you"
+            }
