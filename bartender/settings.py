@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'recommend',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bartender',
         'USER': 'bar',
-        'PASSWORD': 'db_password',
+        'PASSWORD': 'AP3bartender',
         'HOST': '127.0.0.1',
         'POST': '5432'
      }
