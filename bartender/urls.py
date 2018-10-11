@@ -21,5 +21,6 @@ from recommend.urls import router as recommend_router
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include(recommend_router.urls)),
+    url(r'^api2/', include(recommend_router.urls)),
+    url(r'api/', include('recommend.urls')),
 ]
