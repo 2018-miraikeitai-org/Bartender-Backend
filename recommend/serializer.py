@@ -13,7 +13,7 @@ class AccountSerializer(serializers.ModelSerializer):
 class AlcoholSerializer(serializers.ModelSerializer):
     class Meta:
         model = Alcohol
-        fields = ('alcohol_id', 'alco_name', 'image', 'detail')
+        fields = ('alcohol_id', 'type_name', 'alco_name', 'image', 'detail')
 
 
 class QuestionSerializer(serializers.ModelSerializer):
