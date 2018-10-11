@@ -14,5 +14,8 @@ router.register(r'answer', AnswerViewSet)
 
 
 urlpatterns = [
-    url(r'^$', views.recommend, name='recommend'),
+    url(r'alcohol/', views.recommend, name='recommend'),
+    url(r'question/first', views.first_question, name='first_question'),
+    url(r'question/', views.question, name='question'),
+
 ]
