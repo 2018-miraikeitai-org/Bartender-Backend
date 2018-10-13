@@ -1,4 +1,6 @@
-INSERT INTO question(ques_id, ques_contents) VALUES 
+INSERT INTO 
+	question(ques_id, ques_contents) 
+VALUES 
 	(1, 'あなたが今食べたい味は？'),
 	(2, '他人から言われるあるいは自分が思う自分の性格は？'),
 	(3, 'カクテルを飲むタイミングは？'),

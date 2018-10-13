@@ -1,1 +1,6 @@
-LOAD DATA INFILE "./cocktail_data.csv" INTO TABLE bartender.alcohol;
+COPY 
+    alcohol 
+FROM 
+    '/docker-entrypoint-initdb.d/cocktail_data.csv' 
+WITH 
+    CSV HEADER Delimiter ',';
