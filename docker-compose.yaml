@@ -4,7 +4,7 @@ services:
     container_name: web
     restart: always
     build: ./Docker/Web
-    command: sh -c "sleep 10; ./manage.py runserver 0.0.0.0:8000" 
+    command: sh -c "sleep 60; ./manage.py runserver 0.0.0.0:8000" 
     volumes:
       - ./src:/code
       - ./static:/static
@@ -18,9 +18,10 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - "./Docker/PostgreSQL/dbdata:/var/lib/postgresql/data"
+      - ./Docker/PostgreSQL/dbdata:/var/lib/postgresql/data
       - ./Docker/PostgreSQL/SQL:/docker-entrypoint-initdb.d
     environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
       POSTGRES_USER: bar
       POSTGRES_PASSWORD: db_password
       POSTGRES_DB: bartender
