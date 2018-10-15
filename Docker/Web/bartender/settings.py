@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
+
 """
 Django settings for bartender project.
 
@@ -25,7 +28,7 @@ SECRET_KEY = '=4l6wdaq#eu7@ka7a3(7^5sw_zd_=a6f_kq4rl9*32$ia8qtr@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -86,8 +89,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'bartender',
         'USER': 'bar',
-        'PASSWORD': 'db_password',
-        'HOST': 'db',
+        'PASSWORD': 'AP3bartender',
+        'HOST': '127.0.0.1',
         'POST': '5432'
      }
 }

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 from django.db import models
 
 
@@ -6,6 +8,12 @@ class Account(models.Model):
     user_name = models.CharField(max_length=20)
     mailaddress = models.TextField()
     login_pw = models.CharField(max_length=20)
+
+    def to_dict(self):
+        return {'user_id': self.user_id,
+                'user_name': self.user_name,
+                'mailaddress': self.mailaddress,
+                'login_pw': self.login_pw}
 
     class Meta:
         managed = False
@@ -19,6 +27,12 @@ class Alcohol(models.Model):
     image = models.TextField(blank=True, null=True)
     detail = models.TextField()
 
+    def to_dict(self):
+        return {'alcohol_id': self.alcohol_id,
+                'alco_name': self.alco_name,
+                'image': self.image,
+                'detail': self.detail}
+
     class Meta:
         managed = False
         db_table = 'alcohol'
@@ -27,6 +41,10 @@ class Alcohol(models.Model):
 class Question(models.Model):
     ques_id = models.IntegerField(primary_key=True)
     ques_contents = models.CharField(max_length=30)
+
+    def to_dict(self):
+        return {'ques_id': self.ques_id,
+                'ques_contents': self.ques_contents}
 
     class Meta:
         managed = False
@@ -40,6 +58,13 @@ class Option(models.Model):
     option_contents2 = models.CharField(max_length=30)
     option_contents3 = models.CharField(max_length=30, blank=True, null=True)
     option_contents4 = models.CharField(max_length=30, blank=True, null=True)
+
+    def to_dict(self):
+        return {'option_id': self.option_id,
+                'option_contents1': self.option_contents1,
+                'option_contents2': self.option_contents2,
+                'option_contents3': self.option_contents3,
+                'option_contents4': self.option_contents4}
 
     class Meta:
         managed = False
