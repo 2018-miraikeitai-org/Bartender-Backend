@@ -192,7 +192,7 @@ def recommend(request):
     res = json.loads(res_json)
 
     ans_id = res[0]['alcohol_id']  # 回答結果のalcohol_id
-    dataset = pandas.read_csv("SQL/dataset/cocktail_data.csv")
+    dataset = pandas.read_csv("./cocktail_data.csv")
     docs = numpy.array(dataset["detail"])
 
     def vecs_array(docs):
