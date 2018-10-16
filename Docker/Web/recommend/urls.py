@@ -1,4 +1,5 @@
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 
 from rest_framework import routers
 from .views import AccountViewSet, AlcoholViewSet, QuestionViewSet, OptionViewSet, AnswerViewSet

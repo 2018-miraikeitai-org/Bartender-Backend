@@ -1,4 +1,5 @@
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 from rest_framework import serializers
 
 from .models import Account, Alcohol, Question, Option, Answer
