@@ -11,18 +11,19 @@ import numpy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import MeCab
+from collections import OrderedDict
 
 
 def first_question(request):
     q = Question.objects.filter(ques_id=1)
     q_json = json.dumps([x.to_dict() for x in q], ensure_ascii=False)
-    q_list = json.loads(q_json)
+    q_list = json.loads(q_json, object_pairs_hook=OrderedDict)
 
     o = Option.objects.filter(ques_id=1)
     o_json = json.dumps([x.to_dict() for x in o], ensure_ascii=False)
-    o_list = json.loads(o_json)
+    o_list = json.loads(o_json, object_pairs_hook=OrderedDict)
 
-    res = {}
+    res = OrderedDict()
     res.update({"question1": q_list[0]})
     res.update({"option1": o_list[0]})
 
@@ -38,101 +39,101 @@ def question(request):
     if first_ans == '1':
         q1 = Question.objects.filter(ques_id=2)
         q1_json = json.dumps([x.to_dict() for x in q1], ensure_ascii=False)
-        q1_list = json.loads(q1_json)
+        q1_list = json.loads(q1_json, object_pairs_hook=OrderedDict)
 
         o1 = Option.objects.filter(option_id=first_ans)
         o1_json = json.dumps([x.to_dict() for x in o1], ensure_ascii=False)
-        o1_list = json.loads(o1_json)
+        o1_list = json.loads(o1_json, object_pairs_hook=OrderedDict)
 
         q2 = Question.objects.filter(ques_id=3)
         q2_json = json.dumps([x.to_dict() for x in q2], ensure_ascii=False)
-        q2_list = json.loads(q2_json)
+        q2_list = json.loads(q2_json, object_pairs_hook=OrderedDict)
 
         o2 = Option.objects.filter(option_id=6)
         o2_json = json.dumps([x.to_dict() for x in o2], ensure_ascii=False)
-        o2_list = json.loads(o2_json)
+        o2_list = json.loads(o2_json, object_pairs_hook=OrderedDict)
 
         q3 = Question.objects.filter(ques_id=4)
         q3_json = json.dumps([x.to_dict() for x in q3], ensure_ascii=False)
-        q3_list = json.loads(q3_json)
+        q3_list = json.loads(q3_json, object_pairs_hook=OrderedDict)
 
         o3 = Option.objects.filter(option_id=8)
         o3_json = json.dumps([x.to_dict() for x in o3], ensure_ascii=False)
-        o3_list = json.loads(o3_json)
+        o3_list = json.loads(o3_json, object_pairs_hook=OrderedDict)
     elif first_ans == '2':
         q1 = Question.objects.filter(ques_id=2)
         q1_json = json.dumps([x.to_dict() for x in q1], ensure_ascii=False)
-        q1_list = json.loads(q1_json)
+        q1_list = json.loads(q1_json, object_pairs_hook=OrderedDict)
 
         o1 = Option.objects.filter(option_id=first_ans)
         o1_json = json.dumps([x.to_dict() for x in o1], ensure_ascii=False)
-        o1_list = json.loads(o1_json)
+        o1_list = json.loads(o1_json, object_pairs_hook=OrderedDict)
 
         q2 = Question.objects.filter(ques_id=3)
         q2_json = json.dumps([x.to_dict() for x in q2], ensure_ascii=False)
-        q2_list = json.loads(q2_json)
+        q2_list = json.loads(q2_json, object_pairs_hook=OrderedDict)
 
         o2 = Option.objects.filter(option_id=6)
         o2_json = json.dumps([x.to_dict() for x in o2], ensure_ascii=False)
-        o2_list = json.loads(o2_json)
+        o2_list = json.loads(o2_json, object_pairs_hook=OrderedDict)
 
         q3 = Question.objects.filter(ques_id=4)
         q3_json = json.dumps([x.to_dict() for x in q3], ensure_ascii=False)
-        q3_list = json.loads(q3_json)
+        q3_list = json.loads(q3_json, object_pairs_hook=OrderedDict)
 
         o3 = Option.objects.filter(option_id=8)
         o3_json = json.dumps([x.to_dict() for x in o3], ensure_ascii=False)
-        o3_list = json.loads(o3_json)
+        o3_list = json.loads(o3_json, object_pairs_hook=OrderedDict)
     elif first_ans == '3':
         q1 = Question.objects.filter(ques_id=2)
         q1_json = json.dumps([x.to_dict() for x in q1], ensure_ascii=False)
-        q1_list = json.loads(q1_json)
+        q1_list = json.loads(q1_json, object_pairs_hook=OrderedDict)
 
         o1 = Option.objects.filter(option_id=first_ans)
         o1_json = json.dumps([x.to_dict() for x in o1], ensure_ascii=False)
-        o1_list = json.loads(o1_json)
+        o1_list = json.loads(o1_json, object_pairs_hook=OrderedDict)
 
         q2 = Question.objects.filter(ques_id=3)
         q2_json = json.dumps([x.to_dict() for x in q2], ensure_ascii=False)
-        q2_list = json.loads(q2_json)
+        q2_list = json.loads(q2_json, object_pairs_hook=OrderedDict)
 
         o2 = Option.objects.filter(option_id=7)
         o2_json = json.dumps([x.to_dict() for x in o2], ensure_ascii=False)
-        o2_list = json.loads(o2_json)
+        o2_list = json.loads(o2_json, object_pairs_hook=OrderedDict)
 
         q3 = Question.objects.filter(ques_id=5)
         q3_json = json.dumps([x.to_dict() for x in q3], ensure_ascii=False)
-        q3_list = json.loads(q3_json)
+        q3_list = json.loads(q3_json, object_pairs_hook=OrderedDict)
 
         o3 = Option.objects.filter(option_id=9)
         o3_json = json.dumps([x.to_dict() for x in o3], ensure_ascii=False)
-        o3_list = json.loads(o3_json)
+        o3_list = json.loads(o3_json, object_pairs_hook=OrderedDict)
     elif first_ans == '4':
         q1 = Question.objects.filter(ques_id=2)
         q1_json = json.dumps([x.to_dict() for x in q1], ensure_ascii=False)
-        q1_list = json.loads(q1_json)
+        q1_list = json.loads(q1_json, object_pairs_hook=OrderedDict)
 
         o1 = Option.objects.filter(option_id=first_ans)
         o1_json = json.dumps([x.to_dict() for x in o1], ensure_ascii=False)
-        o1_list = json.loads(o1_json)
+        o1_list = json.loads(o1_json, object_pairs_hook=OrderedDict)
 
         q2 = Question.objects.filter(ques_id=3)
         q2_json = json.dumps([x.to_dict() for x in q2], ensure_ascii=False)
-        q2_list = json.loads(q2_json)
+        q2_list = json.loads(q2_json, object_pairs_hook=OrderedDict)
 
         o2 = Option.objects.filter(option_id=7)
         o2_json = json.dumps([x.to_dict() for x in o2], ensure_ascii=False)
-        o2_list = json.loads(o2_json)
+        o2_list = json.loads(o2_json, object_pairs_hook=OrderedDict)
 
         q3 = Question.objects.filter(ques_id=4)
         q3_json = json.dumps([x.to_dict() for x in q3], ensure_ascii=False)
-        q3_list = json.loads(q3_json)
+        q3_list = json.loads(q3_json, object_pairs_hook=OrderedDict)
 
         o3 = Option.objects.filter(option_id=8)
         o3_json = json.dumps([x.to_dict() for x in o3], ensure_ascii=False)
-        o3_list = json.loads(o3_json)
+        o3_list = json.loads(o3_json, object_pairs_hook=OrderedDict)
 
-    res = {}
+    res = OrderedDict()
     res.update({"question2": q1_list[0]})
     res.update({"option2": o1_list[0]})
     res.update({"question3": q2_list[0]})
@@ -184,23 +185,21 @@ def recommend(request):
     r = Alcohol.objects.filter(type_name__contains=ans)
     if r.count() > 1:
         res_json = json.dumps([x.to_dict() for x in r], ensure_ascii=False)
-        res = json.loads(res_json)
+        res = json.loads(res_json, object_pairs_hook=OrderedDict)
         res_json = json.dumps(res[random.randrange(r.count())], ensure_ascii=False)
     else:
         res_json = json.dumps([x.to_dict() for x in r], ensure_ascii=False)
 
-    res = json.loads(res_json)
+    res = json.loads(res_json, object_pairs_hook=OrderedDict)
 
     ans_id = res[0]['alcohol_id']  # 回答結果のalcohol_id
-    dataset = pandas.read_csv("./cocktail_data.csv")
+    dataset = pandas.read_csv("SQL/dataset/cocktail_data.csv")
     docs = numpy.array(dataset["detail"])
 
     def vecs_array(docs):
         wd = WordDividor()
         vectorizer = TfidfVectorizer(
-            analyzer=wd.extract_words,
-            ngram_range=(1, 3),
-            min_df=1,
+            analyzer=wd.extract_words
         )
         vecs = vectorizer.fit_transform(docs.astype('U'))
         return vecs.toarray()
@@ -208,13 +207,13 @@ def recommend(request):
     cs_array = cosine_similarity(vecs_array(docs), vecs_array(docs))
     cocktail = cs_array[ans_id - 1].argsort()[::-1][:3]
 
-    res = {}
+    res = OrderedDict()
     answer = ["answer1", "answer2", "answer3"]
     i = 0
     for c in cocktail:
         r = Alcohol.objects.filter(alcohol_id=c + 1)
         ans_json = json.dumps([x.to_dict() for x in r], ensure_ascii=False)
-        res.update({answer[i]: json.loads(ans_json)[0]})
+        res.update({answer[i]: json.loads(ans_json, object_pairs_hook=OrderedDict)[0]})
         i += 1
 
     return JsonResponse(res)

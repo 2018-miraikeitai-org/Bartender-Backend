@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 from django.db import models
+from collections import OrderedDict
 
 
 class Account(models.Model):
@@ -10,10 +11,12 @@ class Account(models.Model):
     login_pw = models.CharField(max_length=20)
 
     def to_dict(self):
-        return {'user_id': self.user_id,
-                'user_name': self.user_name,
-                'mailaddress': self.mailaddress,
-                'login_pw': self.login_pw}
+        add = (('user_id', self.user_id),
+               ('user_name', self.user_name),
+               ('mailaddress', self.mailaddress),
+               ('login_pw', self.login_pw))
+
+        return OrderedDict(add)
 
     class Meta:
         managed = False
@@ -28,10 +31,12 @@ class Alcohol(models.Model):
     detail = models.TextField()
 
     def to_dict(self):
-        return {'alcohol_id': self.alcohol_id,
-                'alco_name': self.alco_name,
-                'image': self.image,
-                'detail': self.detail}
+        add = (('alcohol_id', self.alcohol_id),
+               ('alco_name', self.alco_name),
+               ('image', self.image),
+               ('detail', self.detail))
+
+        return OrderedDict(add)
 
     class Meta:
         managed = False
@@ -43,8 +48,10 @@ class Question(models.Model):
     ques_contents = models.CharField(max_length=30)
 
     def to_dict(self):
-        return {'ques_id': self.ques_id,
-                'ques_contents': self.ques_contents}
+        add = (('ques_id', self.ques_id),
+               ('ques_contents', self.ques_contents))
+
+        return OrderedDict(add)
 
     class Meta:
         managed = False
@@ -60,11 +67,13 @@ class Option(models.Model):
     option_contents4 = models.CharField(max_length=30, blank=True, null=True)
 
     def to_dict(self):
-        return {'option_id': self.option_id,
-                'option_contents1': self.option_contents1,
-                'option_contents2': self.option_contents2,
-                'option_contents3': self.option_contents3,
-                'option_contents4': self.option_contents4}
+        add = (('option_id', self.option_id),
+               ('option_contents1', self.option_contents1),
+               ('option_contents2', self.option_contents2),
+               ('option_contents3', self.option_contents3),
+               ('option_contents4', self.option_contents4))
+
+        return OrderedDict(add)
 
     class Meta:
         managed = False
