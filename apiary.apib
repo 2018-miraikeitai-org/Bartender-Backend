@@ -50,6 +50,7 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
 | image | VARCHAR | | 画像URL |
 | detail | VARCHAR | | お酒詳細 |
 
+
 ## ユーザ [/users]
 
 ### 新規登録 [/users/regist]
@@ -69,7 +70,9 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
             }
 
 
-+ Response 201 (application/json)   
++ Response 201 (application/json)  
+
+    * 入力確認画面へ
 
     + body
 
@@ -79,6 +82,7 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
 
 
 + Response 400 (application/json) 
+
     * レスポンス400 不正な入力の表示
 
     + body
@@ -99,9 +103,11 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
             {}
 
 + Response 201 (application/json)
-    *新規登録で入力された情報
+
+    *　新規登録で入力された情報
 
     + body
+
     
             {
                 "user_id": "0001",
@@ -109,6 +115,7 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
                 "mailadress": "example@adress.com",
                 "login_pw": "abc123"
             }
+
 
 ## ログイン [/login]
 
@@ -126,6 +133,9 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
 
 + Response 201 (application/json)   
 
+    * ログイン成功
+
+
     + body
 
             {
@@ -133,6 +143,8 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
             }
                 
 + Response 400 (application/json) 
+
+    * ログイン失敗
 
     + body
 
@@ -155,12 +167,12 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
 
             {
                 "ques_id": 1,
-                    "ques_contens": "好きな色は何ですか？",
-                    "option_id": 1,
-                        "option_contents1": "赤”,
-                        "option_contents2": "青,
-                        "option_contents3": "黄色”,
-                        "option_contents4": "緑”,
+                "ques_contens": "好きな色は何ですか？",
+                "option_id": 1,
+                "option_contents1": "赤”,
+                "option_contents2": "青,
+                "option_contents3": "黄色”,
+                "option_contents4": "緑”,
                 }
             }
 
@@ -172,19 +184,46 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
 
 + Request (application/json)
 
+    * 選択肢から一つ選択する
+
     + body
 
             {
-                "answer_id":[
-                    { "option_contents1": "赤”}, 
-                    { "option_contents2": "青”}, 
-                    { "option_contents3": "黄色”},
-                    { "option_contents4": "緑”}
-                ]
+                "answer_id": 1,
+                "option_contents1": "赤”
             }
 
 
-+ Response 204 (application/json)
++ Response 201 (application/json)
+
+    * 質問を数回繰り返したら推薦画面へ
+
+    
+    + body
+    
+            {}
+
+
+## カクテル推薦 [/recommend]
+
+### カクテル推薦 [POST]
+
++ Request (application/json)
+
+    + body
+    
+            {
+                "alco_id": 001
+            }
+
++ Response 201 (application/json)
+
+    * カクテル詳細画面へ
+
+    + body
+    
+            {}
+
 
 ## カクテル [/alcohols]
 
@@ -196,7 +235,7 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
     + body
 
             {
-                "alco_id": "001"
+                "alco_id": 001
             }
 
 + Response 201 (application/json)
@@ -211,20 +250,25 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
                     "detail":"詳細”
             }
 
-## 履歴 [/history]
+
+## 履歴 [/history/{user_id}]
 
 ### 履歴 [GET]
 * ユーザの選択したカクテルの履歴を表示する。
+
++ Parameters
+
+    + user_id: 0001 (number)
 
 + Response 200 (application/json)
 
     + body
 
             {
-                "user_id":{
-                    "leaning_data": "履歴一覧"
-                }
+                "user_id": 0001,
+                "leaning_data": "履歴一覧"
             }
+
 
 ## レビュー [/review]
 
@@ -250,4 +294,43 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
 
             {
                 "message": "Thank you."
+            }
+
+
+## アカウント情報 [/users/user]
+
+### アカウント情報 [GET]
+
++ Response 200 (application/json)
+
+    + body
+
+    
+            {
+                "user_id": 0001,
+                "user_name": "user1",
+                "mailadress": "example@adress.com"
+            }
+
+
+## パスワード変更 [/regpass]
+
+### パスワード変更 [PUT]
+
++ Request (application/json)
+
+    + body
+
+
+            {
+                "login_pw": "456def"
+            }
+            
++ Response 201 (application/json)
+
+    + body
+    
+
+            {
+                "message": "success"
             }
