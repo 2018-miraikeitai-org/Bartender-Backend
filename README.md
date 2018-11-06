@@ -25,3 +25,5 @@
     - 1. https://qiita.com/kimihiro_n/items/86e0a9e619720e57ecd8
     - 2. https://slideship.com/users/@massa142/presentations/2018/05/RjVo67zy1JyQiYqe3GgpLB/
     - 3. https://www.sejuku.net/blog/29189
+## dockerについて
+SQLも更新したのでdocker関連はdockerブランチに置いときます。戸澤くんごめんね。

@@ -1,6 +1,6 @@
 CREATE TABLE account
-(user_id	int	NOT NULL,
-user_name	varchar(20)	NOT NULL,
-mailaddress	text NOT NULL,
-login_pw	varchar(20)	NOT NULL,
-PRIMARY KEY(user_id));
+(user_id	serial	primary key,
+user_name	varchar(30)	NOT NULL,
+email text NOT NULL,
+password text NOT NULL,
+last_login timestamptz NOT NULL);
