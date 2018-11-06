@@ -5,57 +5,11 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
 
 「てのひらバーテンダー」のAPIです。
 
-##テーブル
-
-各テーブルについて説明します。
-
-###account
-| カラム名 | データ型 | オプション | 備考 |
-|:---------|:---------|:-----------|:-----|
-| user_id | INT | PRIMARY_KEY | ユーザID |
-| user_name | VARCHAR | NOT_NULL | ユーザ名 |
-| mailadress | VARCHAR | NOT_NULL | ログインID(メアド) |
-| login_pw | VARCHAR | NOT_NULL | ログインパスワード |
-
-###answer
-| カラム名 | データ型 | オプション | 備考 |
-|:---------|:---------|:-----------|:-----|
-| answer_id | INT | PRIMARY_KEY | 回答ID |
-| user_id | INT | FOREIGN_KEY | ユーザID |
-| ques_id | INT | FOREIGN_KEY | 質問ID |
-| leaning_data | VARCHAR[] | | 学習データ |
-
-###question
-| カラム名 | データ型 | オプション | 備考 |
-|:---------|:---------|:-----------|:-----|
-| ques_id | INT | PRIMARY_KEY | 質問ID |
-| ques_contents | VARCHAR | NOT_NULL | 質問内容 |
-
-###option
-| カラム名 | データ型 | オプション | 備考 |
-|:---------|:---------|:-----------|:-----|
-| option_id | INT | PRIMARY_KEY | 選択肢ID |
-| ques_id | INT | FOREIGN_KEY | 質問ID |
-|option_contents1 | VARCHAR | NOT_NULL | 選択肢1 |
-|option_contents2 | VARCHAR | NOT_NULL | 選択肢2 |
-|option_contents3 | VARCHAR | NOT_NULL | 選択肢3 |
-|option_contents4 | VARCHAR | NOT_NULL | 選択肢4 |
-
-###alcohol
-| カラム名 | データ型 | オプション | 備考 |
-|:---------|:---------|:-----------|:-----|
-| alco_id | INT | PRIMARY_KEY | お酒ID |
-| type_name | VARCHAR[] | NOT_NULL | 種類データ |
-| alco_name | VARCHAR | NOT_NULL | お酒名 |
-| image | VARCHAR | | 画像URL |
-| detail | VARCHAR | | お酒詳細 |
-
-
 ## ユーザ [/users]
 
-### 新規登録 [/users/regist]
+### 新規登録 [POST]
 
-#### 新規登録 [POST]
+#### 処理概要
 
 * ユーザを新しく登録する。
 
@@ -64,178 +18,107 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
     + body
 
             {
-                "user_name": "user1",
-                "mailadress": "example@adress.com",
-                "login_pw": "abc123"
+                "user_id":{
+                    "user_name": "user",
+                    "login_id": "1234",
+                    "login_pw": "abc123"
+                }
             }
 
-
-+ Response 201 (application/json)  
-
-    * 入力確認画面へ
++ Response 201 (application/json)   
 
     + body
 
             {
-                "message": "success"
+                "bool":true
             }
-
 
 + Response 400 (application/json) 
 
-    * レスポンス400 不正な入力の表示
-
     + body
 
             {
-                "message": "false"
+                "bool": false
             }
-
-###確認画面 [/users/conf]
-
-####確認画面 [POST]
-* 新規登録の確認画面
-
-+ Request (application/ison)
-
-    + body
-    
-            {}
-
-+ Response 201 (application/json)
-
-    *　新規登録で入力された情報
-
-    + body
-
-    
-            {
-                "user_id": "0001",
-                "user_name": "user1",
-                "mailadress": "example@adress.com",
-                "login_pw": "abc123"
-            }
-
 
 ## ログイン [/login]
 
 ### ログイン情報取得 [POST]
-* ユーザのログイン情報を取得し、照合する。
 
 + Request (application/json)
 
     + body
 
             {
-                "mailadress": "example@adress.com",
-                "login_pw": "abc123"
+                "user_id":{
+                    "login_id": "12234",
+                    "login_pw": "abc123"
+                }
             }
 
 + Response 201 (application/json)   
 
-    * ログイン成功
-
-
     + body
 
             {
-                "message": "success"
+                "bool":true
             }
                 
 + Response 400 (application/json) 
 
-    * ログイン失敗
-
     + body
 
             {
-                "message": "false"
+                "bool": false
             }
     
 
 ## 質問 [/question/{ques_id}]
 
-### 質問表示 [GET]
-* 質問と選択肢を表示する。
+### 質問表示 [POST]
 
 + Parameters
     + ques_id: 1 (number)
-    
+
++ Request (application/json)
+
+    + body
+
+            {
+                "answer_id":[
+                    "option_contents1": "赤”, 
+                    "option_contents2": "青”, 
+                    "option_contents3": "黄色”
+                ]
+            }
+
+
 + Response 201 (application/json)
 
     + body
 
             {
-                "ques_id": 1,
-                "ques_contens": "好きな色は何ですか？",
-                "option_id": 1,
-                "option_contents1": "赤”,
-                "option_contents2": "青,
-                "option_contents3": "黄色”,
-                "option_contents4": "緑”,
+                "ques_id":{
+                    "ques_contens": "好きな色は何ですか？",
+                    "option_id":[
+                            "option_contents1": "赤”,
+                            "option_contents2": "青,
+                            "option_contents3": "黄色”
+                        ]
                 }
             }
-
-### 回答 [PUT]
-* 選択肢の中から選んで回答する。
-
-+ Parameters
-    + ques_id: 1 (number)
-
-+ Request (application/json)
-
-    * 選択肢から一つ選択する
-
-    + body
-
-            {
-                "answer_id": 1,
-                "option_contents1": "赤”
-            }
-
-
-+ Response 201 (application/json)
-
-    * 質問を数回繰り返したら推薦画面へ
-
-    
-    + body
-    
-            {}
-
-
-## カクテル推薦 [/recommend]
-
-### カクテル推薦 [POST]
-
-+ Request (application/json)
-
-    + body
-    
-            {
-                "alco_id": 001
-            }
-
-+ Response 201 (application/json)
-
-    * カクテル詳細画面へ
-
-    + body
-    
-            {}
 
 
 ## カクテル [/alcohols]
 
 ### カクテル詳細 [POST]
-* カクテルのidを取得し、そのカクテルの情報を表示する。
 
 + Request (application/json)
 
     + body
 
             {
-                "alco_id": 001
+                "alco_name": "ジン・トニック"
             }
 
 + Response 201 (application/json)
@@ -244,36 +127,27 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
 
             {
                 "alco_id":{
-                    "type_name": "辛口"
+                    "type_name": "カクテルの説明"
                     "alco_name": "ジン・トニック"
-                    "image":"画像”
-                    "detail":"詳細”
             }
 
-
-## 履歴 [/history/{user_id}]
+## 履歴 [/history]
 
 ### 履歴 [GET]
-* ユーザの選択したカクテルの履歴を表示する。
-
-+ Parameters
-
-    + user_id: 0001 (number)
 
 + Response 200 (application/json)
 
     + body
 
             {
-                "user_id": 0001,
-                "leaning_data": "履歴一覧"
+                "user_id":{
+                    "leaning_data": "履歴一覧"
+                }
             }
-
 
 ## レビュー [/review]
 
-### レビュー [PUT]
-* 推薦したカクテルがどうであったかレビューしてもらう。
+### レビュー [POST]
 
 + Request (application/json)
 
@@ -281,56 +155,16 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
 
             {
                 "answer_id":[
-                    "option_contents1": "よかった”, 
-                    "option_contents2": "気分ではなかった”, 
-                    "option_contents3": "嫌いな味だった”
+                    "option_contents1": "赤”, 
+                    "option_contents2": "青”, 
+                    "option_contents3": "黄色”
                 ]
             }
 
 + Response 201 (application/json)   
 
     + body
-    
 
             {
-                "message": "Thank you."
-            }
-
-
-## アカウント情報 [/users/user]
-
-### アカウント情報 [GET]
-
-+ Response 200 (application/json)
-
-    + body
-
-    
-            {
-                "user_id": 0001,
-                "user_name": "user1",
-                "mailadress": "example@adress.com"
-            }
-
-
-## パスワード変更 [/regpass]
-
-### パスワード変更 [PUT]
-
-+ Request (application/json)
-
-    + body
-
-
-            {
-                "login_pw": "456def"
-            }
-            
-+ Response 201 (application/json)
-
-    + body
-    
-
-            {
-                "message": "success"
+                "message":"thank you"
             }

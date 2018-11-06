@@ -1,4 +1,3 @@
 CREATE TABLE question
-(ques_id	int	NOT NULL,
-ques_contents	varchar(30) NOT NULL,
-PRIMARY KEY(ques_id));
+(ques_id	serial	primary key,
+ques_contents	varchar(30) NOT NULL);
