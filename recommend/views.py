@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from rest_framework import viewsets
 from .models import Alcohol, Question, Option, Answer, History
 from .serializer import AlcoholSerializer, QuestionSerializer, OptionSerializer, AnswerSerializer, HistorySerializer
 import json
@@ -12,14 +11,20 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import MeCab
 from collections import OrderedDict
-from rest_framework import permissions
+import requests
+from datetime import date, datetime
+
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework import permissions, status, viewsets
 from rest_framework.views import APIView
 
 
 class FirstQuestionView(APIView):
     # permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, format=None):
+    @action(detail=False, methods=['get'])
+    def get(self, request):
         q = Question.objects.filter(ques_id=1)
         q_json = json.dumps([x.to_dict() for x in q], ensure_ascii=False)
         q_list = json.loads(q_json, object_pairs_hook=OrderedDict)
@@ -37,7 +42,8 @@ class FirstQuestionView(APIView):
 
 class QuestionView(APIView):
 
-    def post(self, request, format=None):
+    @action(detail=False, methods=['post'])
+    def post(self, request):
         first_ans = request.data['ans']
 
         if first_ans == '1':
@@ -148,6 +154,57 @@ class QuestionView(APIView):
         return JsonResponse(res)
 
 
+def json_serial(obj):
+    # 日付型の場合には、文字列に変換します
+    if isinstance(obj, (datetime, date)):
+        return obj.isoformat()
+    # 上記以外はサポート対象外.
+    raise TypeError("Type %s not serializable" % type(obj))
+
+
+class ReviewView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    @action(detail=False, methods=['post'])
+    def post(self, request):
+        try:
+            user_id = request.user.user_id
+            history = History.objects.get(user_id=user_id, alco_name=request.data['alco_name'])
+
+            return Response(data={
+                'user_id': history.user_id,
+                'alco_name': history.alco_name,
+                'data_joined': history.data_joined,
+                'review': history.review
+            })
+        except History.DoesNotExist:
+            return Response(data={
+                "message": "History matching query does not exist"
+            },
+                status=status.HTTP_400_BAD_REQUEST)
+
+    @action(detail=False, methods=['put'])
+    def put(self, request):
+        try:
+            user_id = request.user.user_id
+            review = request.data['review']
+
+            history = History.objects.get(user_id=user_id, alco_name=request.data['alco_name'])
+            history.review = review
+            history.save()
+
+            return Response(data={
+                'alco_name': history.alco_name,
+                'review': history.review,
+            },
+                status=status.HTTP_200_OK)
+        except History.DoesNotExist:
+            return Response(data={
+                "message": "History matching query does not exist"
+            },
+                status=status.HTTP_400_BAD_REQUEST)
+
+
 class WordDividor:
     INDEX_CATEGORY = 0
     INDEX_ROOT_FORM = 6
@@ -182,7 +239,8 @@ class WordDividor:
 
 class RecommendView(APIView):
 
-    def post(self, request, format=None):
+    @action(detail=False, methods=['post'])
+    def post(self, request):
         ans = request.data['ans']
 
         r = Alcohol.objects.filter(type_name__contains=ans)
