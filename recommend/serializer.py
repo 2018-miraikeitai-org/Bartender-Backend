@@ -39,4 +39,4 @@ class AnswerSerializer(serializers.ModelSerializer):
 class HistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = History
-        fields = ('history_id', 'user_id', 'alco_name', 'review')
+        fields = ('history_id', 'user_id', 'alco_name', 'data_joined', 'review')
