@@ -140,12 +140,89 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
     + body
 
             {
-                "user_id":{
-                    "leaning_data": "履歴一覧"
+                "history1": {
+                    "history_id": 2,
+                    "user_id": 1,
+                    "alco_name": "カシスオレンジ",
+                    "data_joined": "2018-11-11T11:26:45.629566+00:00",
+                    "review": 5
+                },
+                "history2": {
+                    "history_id": 3,
+                    "user_id": 1,
+                    "alco_name": "カシスグレープ",
+                    "data_joined": "2018-11-11T11:56:29.312260+00:00",
+                    "review": null
+                },
+                "history3": {
+                    "history_id": 1,
+                    "user_id": 1,
+                    "alco_name": "オレンジブロッサム",
+                    "data_joined": "2018-11-11T11:57:08.802710+00:00",
+                    "review": 5
+                },
+                "history4": {
+                    "history_id": 4,
+                    "user_id": 1,
+                    "alco_name": "モヒート",
+                    "data_joined": "2018-11-11T12:01:06.170376+00:00",
+                    "review": 5
+                },
+                "history5": {
+                    "history_id": 5,
+                    "user_id": 3,
+                    "alco_name": "キール",
+                    "data_joined": "2018-11-11T12:03:35.983323+00:00",
+                    "review": null
+                },
+                "history6": {
+                    "history_id": 6,
+                    "user_id": 3,
+                    "alco_name": "ファジーネーブル",
+                    "data_joined": "2018-11-11T12:35:17.860670+00:00",
+                    "review": 4
                 }
             }
 
+
+### 履歴 [POST]
+
++ Request (application/json)
+
+    + body
+
+            {
+                "alco_name": "ファジーネーブル"
+            }
+
++ Response 201 (application/json)
+
+    + body
+
+            {
+                "message": "履歴を保存しました"
+            }
+
 ## レビュー [/review]
+
+### レビュー [PUT]
+
++ Request (application/json)
+
+    + body
+
+            {
+                "alco_name": "ファジーネーブル",
+                "review": 4
+            }
+
++ Response 200 (application/json)   
+
+    + body
+
+            {
+                "message":"レビューを更新しました"
+            }
 
 ### レビュー [POST]
 
@@ -154,17 +231,17 @@ HOST: http://private-ebed2-bartender4.apiary-mock.com
     + body
 
             {
-                "answer_id":[
-                    "option_contents1": "赤”, 
-                    "option_contents2": "青”, 
-                    "option_contents3": "黄色”
-                ]
+                "alco_name": "ファジーネーブル"
             }
 
-+ Response 201 (application/json)   
++ Response 200 (application/json)   
 
     + body
 
             {
-                "message":"thank you"
+                "history_id": 6,
+                    "user_id": 1,
+                    "alco_name": "ファジーネーブル",
+                    "data_joined": ,
+                    "review": 4
             }
