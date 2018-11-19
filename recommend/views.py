@@ -9,7 +9,7 @@ import pandas
 import numpy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import MeCab
+# import MeCab
 from collections import OrderedDict
 import requests
 from datetime import date, datetime
@@ -167,29 +167,19 @@ class HistoryView(APIView):
 
     @action(detail=False, methods=['post'])
     def post(self, request):  # 受けとったデータを履歴テーブルに追加する
-        try:
-            history = History.objects.get(user_id=request.user.user_id, alco_name=request.data['alco_name'])
-            history.data_joined = timezone.now()
-            history.save()
+        hc = History.objects.count()
+        h = History(
+            history_id=hc + 1,
+            user_id=request.user.user_id,
+            alco_name=request.data['alco_name'],
+            data_joined=timezone.now()
+        )
+        h.save()
 
-            return Response(data={
-                "message": "履歴を更新しました"
-            },
-                status=status.HTTP_200_OK)
-        except History.DoesNotExist:
-            hc = History.objects.count()
-            h = History(
-                history_id=hc + 1,
-                user_id=request.user.user_id,
-                alco_name=request.data['alco_name'],
-                data_joined=timezone.now()
-            )
-            h.save()
-
-            return Response(data={
-                "message": "履歴に保存しました"
-            },
-                status=status.HTTP_201_CREATED)
+        return Response(data={
+            "message": "履歴に保存しました"
+        },
+            status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'])
     def get(self, request):     # 履歴データを渡す
