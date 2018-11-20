@@ -9,7 +9,7 @@ import pandas
 import numpy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import MeCab
+# import MeCab
 from collections import OrderedDict
 import requests
 from datetime import date, datetime
@@ -33,11 +33,17 @@ class FirstQuestionView(APIView):
         o_json = json.dumps([x.to_dict() for x in o], ensure_ascii=False)
         o_list = json.loads(o_json, object_pairs_hook=OrderedDict)
 
-        res = OrderedDict()
-        res.update({"question1": q_list[0]})
-        res.update({"option1": o_list[0]})
+        if request.META.get('HTTP_PLATFORM', None) == 'iOS':
+            q_list.extend(o_list)
+            res = q_list
 
-        return JsonResponse(res)
+            return Response(res)
+        else:
+            res = OrderedDict()
+            res.update({"question1": q_list[0]})
+            res.update({"option1": o_list[0]})
+
+            return JsonResponse(res)
 
 
 class QuestionView(APIView):
@@ -143,15 +149,25 @@ class QuestionView(APIView):
             o3_json = json.dumps([x.to_dict() for x in o3], ensure_ascii=False)
             o3_list = json.loads(o3_json, object_pairs_hook=OrderedDict)
 
-        res = OrderedDict()
-        res.update({"question2": q1_list[0]})
-        res.update({"option2": o1_list[0]})
-        res.update({"question3": q2_list[0]})
-        res.update({"option3": o2_list[0]})
-        res.update({"question4": q3_list[0]})
-        res.update({"option4": o3_list[0]})
+        if request.META.get('HTTP_PLATFORM', None) == 'iOS':
+            q1_list.extend(o1_list)
+            q1_list.extend(q2_list)
+            q1_list.extend(o2_list)
+            q1_list.extend(q3_list)
+            q1_list.extend(o3_list)
+            res = q1_list
 
-        return JsonResponse(res)
+            return Response(res)
+        else:
+            res = OrderedDict()
+            res.update({"question2": q1_list[0]})
+            res.update({"option2": o1_list[0]})
+            res.update({"question3": q2_list[0]})
+            res.update({"option3": o2_list[0]})
+            res.update({"question4": q3_list[0]})
+            res.update({"option4": o3_list[0]})
+
+            return JsonResponse(res)
 
 
 def json_serial(obj):
@@ -167,42 +183,44 @@ class HistoryView(APIView):
 
     @action(detail=False, methods=['post'])
     def post(self, request):  # 受けとったデータを履歴テーブルに追加する
-        try:
-            history = History.objects.get(user_id=request.user.user_id, alco_name=request.data['alco_name'])
-            history.data_joined = timezone.now()
-            history.save()
+        hc = History.objects.count()
+        h = History(
+            history_id=hc + 1,
+            user_id=request.user.user_id,
+            alco_name=request.data['alco_name'],
+            data_joined=timezone.now()
+        )
+        h.save()
 
-            return Response(data={
-                "message": "履歴を更新しました"
-            },
-                status=status.HTTP_200_OK)
-        except History.DoesNotExist:
-            hc = History.objects.count()
-            h = History(
-                history_id=hc + 1,
-                user_id=request.user.user_id,
-                alco_name=request.data['alco_name'],
-                data_joined=timezone.now()
-            )
-            h.save()
-
-            return Response(data={
-                "message": "履歴に保存しました"
-            },
-                status=status.HTTP_201_CREATED)
+        return Response(data={
+            "message": "履歴に保存しました"
+        },
+            status=status.HTTP_201_CREATED)
 
     @action(detail=False, methods=['get'])
     def get(self, request):     # 履歴データを渡す
         try:
             sh = History.objects.filter(user_id=request.user.user_id)
-            res = OrderedDict()
             sh_json = json.dumps([x.to_dict() for x in sh], default=json_serial, ensure_ascii=False)
             sh_list = json.loads(sh_json, object_pairs_hook=OrderedDict)
 
-            for i in range(sh.count()):
-                res.update({"history" + str(i + 1): sh_list[i]})
+            if request.META.get('HTTP_PLATFORM', None) == 'iOS':
+                for i in range(sh.count()):
+                    alcohol = Alcohol.objects.get(alco_name=sh_list[i]['alco_name'])
+                    sh_list[i].update({"image": alcohol.image, "detail": alcohol.detail})
 
-            return JsonResponse(res)
+                res = sh_list
+                return Response(res)
+            else:
+                res = OrderedDict()
+
+                for i in range(sh.count()):
+                    alcohol = Alcohol.objects.get(alco_name=sh_list[i]['alco_name'])
+                    sh_list[i].update({"image": alcohol.image, "detail": alcohol.detail})
+                    res.update({"history" + str(i + 1): sh_list[i]})
+
+                return JsonResponse(res)
+
         except History.DoesNotExist:
             return Response(data={
                 "message": "History matching query does not exist"
@@ -252,7 +270,7 @@ class ReviewView(APIView):
             },
                 status=status.HTTP_400_BAD_REQUEST)
 
-
+"""
 class WordDividor:
     INDEX_CATEGORY = 0
     INDEX_ROOT_FORM = 6
@@ -283,6 +301,7 @@ class WordDividor:
             node = node.next
 
         return words
+"""
 
 
 class RecommendView(APIView):
@@ -325,16 +344,24 @@ class RecommendView(APIView):
         cs_list = numpy.array(cs_res[0]['learning_data'])
         cocktail = cs_list.argsort()[::-1][:3]
 
-        res = OrderedDict()
-        answer = ["answer1", "answer2", "answer3"]
-        i = 0
-        for c in cocktail:
-            r = Alcohol.objects.filter(alcohol_id=c + 1)
-            ans_json = json.dumps([x.to_dict() for x in r], ensure_ascii=False)
-            res.update({answer[i]: json.loads(ans_json, object_pairs_hook=OrderedDict)[0]})
-            i += 1
+        if request.META.get('HTTP_PLATFORM', None) == 'iOS':
+            res = []
+            for i in range(len(cocktail)):
+                r = Alcohol.objects.filter(alcohol_id=cocktail[i] + 1)
+                ans_json = json.dumps([x.to_dict() for x in r], ensure_ascii=False)
+                ans_list = json.loads(ans_json, object_pairs_hook=OrderedDict)
+                res.extend(ans_list)
 
-        return JsonResponse(res)
+            return Response(res)
+        else:
+            res = OrderedDict()
+            for i in range(len(cocktail)):
+                r = Alcohol.objects.filter(alcohol_id=cocktail[i] + 1)
+                ans_json = json.dumps([x.to_dict() for x in r], ensure_ascii=False)
+                ans_list = json.loads(ans_json, object_pairs_hook=OrderedDict)
+                res.update({"answer" + str(i + 1): ans_list[0]})
+
+            return JsonResponse(res)
 
 
 class AlcoholViewSet(viewsets.ModelViewSet):
