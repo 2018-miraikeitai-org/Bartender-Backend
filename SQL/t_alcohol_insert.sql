@@ -11,7 +11,7 @@ INSERT INTO alcohol(alcohol_id, type_name, alco_name, image, detail) VALUES
 (10, '1311,1312', 'オペレーター', 'http://miraikeitai2018-bartender.s3.amazonaws.com/no_image.jpg', '白ワイン+ジンジャーエール,中甘中辛,黄色系,味はさっぱりしていて、ソフトドリンクのような甘さで飲みやすい、女性に人気が高い,アルコール度数は低い'),
 (11, '1131,1132', 'キューバ・リブレ', 'http://miraikeitai2018-bartender.s3.amazonaws.com/Cuba_Libre.jpg', 'ラム+ライム+コーラ,中甘辛口,茶系,ラム独特の甘さがある,アルコール度数は普通'),
 (12, '1221', 'メロン・ボール', 'http://miraikeitai2018-bartender.s3.amazonaws.com/Melon_Ball.jpg', 'ウォッカ+メロンリキュール+オレンジジュース,甘口,緑系,メロンの甘さとオレンジジュースがマッチして飲みやすい,アルコール度数は普通'),
-(13, '1222', '雪国', 'http://miraikeitai2018-bartender.s3.amazonaws.com/no_image.jpg', 'ウォッカ+ホワイトキュラソー+ライムジュース+砂糖,甘口,緑系,日本人のバーテンダーが作ったカクテルとしては最も有名、甘くて飲みやすい,アルコール度数は高い'),
+(13, '1222', '雪国', 'http://miraikeitai2018-bartender.s3.amazonaws.com/Yukiguni.jpeg', 'ウォッカ+ホワイトキュラソー+ライムジュース+砂糖,甘口,緑系,日本人のバーテンダーが作ったカクテルとしては最も有名、甘くて飲みやすい,アルコール度数は高い'),
 (14, '1221', 'ゴッド・ファーザー', 'http://miraikeitai2018-bartender.s3.amazonaws.com/Godfather.jpg', 'ウイスキー+アーモンドリキュール,中甘辛口,茶系,アーモンド風味の香りと甘味、ウイスキーの濃厚さが特徴,アルコール度数は高い'),
 (15, '1211,1212', 'マンハッタン', 'http://miraikeitai2018-bartender.s3.amazonaws.com/Manhattan.jpg', 'ウイスキー+スイートベルモット+アンゴスチュラビターズ+チェリー+レモンピール,中甘辛口,赤系,ほろ苦い甘みのある味,アルコール度数は高い'),
 (16, '2211,2212', 'カシスグレープフルーツ', 'http://miraikeitai2018-bartender.s3.amazonaws.com/Cassis_Grapefruit.jpg', 'カシスリキュール+グレープフルーツジュース,甘口,赤系,それほど甘過ぎずさっぱりと飲める,アルコール度数は低い'),
