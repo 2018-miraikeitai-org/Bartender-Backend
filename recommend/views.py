@@ -209,18 +209,18 @@ class HistoryView(APIView):
                     alcohol = Alcohol.objects.get(alco_name=sh_list[i]['alco_name'])
                     sh_list[i].update({"image": alcohol.image, "detail": alcohol.detail})
 
-                res = sh_list
-                return Response(res)
+                sh_list.reverse()  # 降順に並び替え
+
+                return Response(sh_list)
             else:
                 res = OrderedDict()
 
-                for i in range(sh.count()):
+                for i in range(sh.count())[::-1]:  # 降順に並び替え[::-1]
                     alcohol = Alcohol.objects.get(alco_name=sh_list[i]['alco_name'])
                     sh_list[i].update({"image": alcohol.image, "detail": alcohol.detail})
                     res.update({"history" + str(i + 1): sh_list[i]})
 
                 return JsonResponse(res)
-
         except History.DoesNotExist:
             return Response(data={
                 "message": "History matching query does not exist"
