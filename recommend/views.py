@@ -218,7 +218,7 @@ class HistoryView(APIView):
                 for i in range(sh.count())[::-1]:  # 降順に並び替え[::-1]
                     alcohol = Alcohol.objects.get(alco_name=sh_list[i]['alco_name'])
                     sh_list[i].update({"image": alcohol.image, "detail": alcohol.detail})
-                    res.update({"history" + str(i + 1): sh_list[i]})
+                    res.update({"history" + str(sh.count() - i): sh_list[i]})
 
                 return JsonResponse(res)
         except History.DoesNotExist:
