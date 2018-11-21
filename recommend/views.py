@@ -209,8 +209,8 @@ class HistoryView(APIView):
                     alcohol = Alcohol.objects.get(alco_name=sh_list[i]['alco_name'])
                     sh_list[i].update({"image": alcohol.image, "detail": alcohol.detail})
 
-                res = sh_list
-                return Response(res)
+                res_sorted = sh_list.reverse()  #降順に並び替え
+                return Response(res_sorted)
             else:
                 res = OrderedDict()
 
@@ -219,7 +219,12 @@ class HistoryView(APIView):
                     sh_list[i].update({"image": alcohol.image, "detail": alcohol.detail})
                     res.update({"history" + str(i + 1): sh_list[i]})
 
-                return JsonResponse(res)
+                #降順に並び替え
+                res_sorted = OrderedDict(
+                    sorted(res.item(), key = lambda x: x[0], reverse =True)
+                )
+
+                return JsonResponse(res_sorted)
 
         except History.DoesNotExist:
             return Response(data={
