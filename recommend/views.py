@@ -235,7 +235,7 @@ class ReviewView(APIView):
     def post(self, request):  # reviewデータを渡す
         try:
             user_id = request.user.user_id
-            history = History.objects.get(user_id=user_id, alco_name=request.data['alco_name'])
+            history = History.objects.filter(user_id=user_id, alco_name=request.data['alco_name']).latest('history_id')
 
             return Response(data={
                 'history_id': history.history_id,
@@ -256,9 +256,10 @@ class ReviewView(APIView):
             user_id = request.user.user_id
             review = request.data['review']
 
-            history = History.objects.get(user_id=user_id, alco_name=request.data['alco_name'])
-            history.review = review
-            history.save()
+            history = History.objects.filter(user_id=user_id, alco_name=request.data['alco_name'])
+            for his in history:
+                his.review = review
+                his.save()
 
             return Response(data={
                 "message": "レビューを更新しました"
