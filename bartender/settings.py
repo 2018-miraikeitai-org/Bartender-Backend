@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'accounts',
     'django.contrib.postgres',
     'django_postgres_extensions',
+#    'rest_auth',
 ]
 
 JWT_AUTH = {
@@ -67,6 +68,7 @@ JWT_AUTH = {
 
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,
+#    'JWT_GET_USER_SECRET_KEY': 'spauser.models.jwt_get_secret_key',
     'JWT_PUBLIC_KEY': None,
     'JWT_PRIVATE_KEY': None,
     'JWT_ALGORITHM': 'HS256',
@@ -74,6 +76,7 @@ JWT_AUTH = {
     'JWT_VERIFY_EXPIRATION': True,
     'JWT_LEEWAY': 0,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=1800),
+#    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=15),
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
 
@@ -82,6 +85,9 @@ JWT_AUTH = {
 
     'JWT_AUTH_HEADER_PREFIX': 'JWT',
     'JWT_AUTH_COOKIE': None,
+
+
+
 }
 
 REST_FRAMEWORK = {
@@ -179,3 +185,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#LOGOUT_REDIRECT_URL = 'login'

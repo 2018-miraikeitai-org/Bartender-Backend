@@ -15,8 +15,10 @@ class AccountSerializer(serializers.ModelSerializer):
         return Account.objects.create_user(request_data=validated_data)
 
     def update(self, instance, validated_data):
+#    def update(self, instance, new_password, validated_data):
         if 'password' in validated_data:
             instance.set_password(validated_data['password'])
+#            instance.set_password(new_password)
         else:
             instance = super().update(instance, validated_data)
         instance.save()

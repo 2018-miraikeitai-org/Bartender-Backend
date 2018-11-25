@@ -6,6 +6,7 @@ from django.core import validators
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from collections import OrderedDict
+import uuid
 
 
 class AccountManager(BaseUserManager):
@@ -57,3 +58,14 @@ class Account(AbstractBaseUser):
         managed = False
         db_table = 'account'
         swappable = 'AUTH_USER_MODEL'
+
+"""
+class SpaUser(AbstractBaseUser):
+    email = models.EmailField(verbose_name='email address', max_length=255, unique=True)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    jwt_secret = models.UUIDField(default=uuid.uuid4)
+
+    def jwt_get_secret_key(user_model):
+        return user_model.jwt_secret
+"""

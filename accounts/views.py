@@ -2,12 +2,13 @@ from django.db import transaction
 from django.http import Http404
 
 from .serializer import AccountSerializer
-from .models import Account
+from .models import Account #,  SpaUser
 
 from rest_framework import status
 from rest_framework import permissions, generics
 from rest_framework_jwt.settings import api_settings
 from rest_framework.response import Response
+import uuid
 
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
@@ -52,10 +53,26 @@ class AuthInfoUpdateView(generics.UpdateAPIView):
 
     def get_object(self):
         try:
+            if self.request.data['user_name'] == self.request.user.user_name and self.request.user.check_password(self.request.data['before_password']):
+               # new_password = self.request.data['new_password']    #新しいパスワード
+                instance = self.queryset.get(user_name=self.request.user)
+                return instance #, new_password
+            else:
+#                raise PermissionDenied
+                raise PermissionError
+        except Account.DoesNotExist:
+            raise Http404
+ #       except KeyError:
+
+
+"""
+    def get_object(self):
+        try:
             instance = self.queryset.get(user_name=self.request.user)
             return instance
         except Account.DoesNotExist:
             raise Http404
+"""
 
 
 # ユーザ削除のView(DELETE)
@@ -71,3 +88,15 @@ class AuthInfoDeleteView(generics.DestroyAPIView):
             return instance
         except Account.DoesNotExist:
             raise Http404
+
+"""
+#ログアウト
+class SpaUserLogoutView(generics.RetrieveAPIView):    
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        user = self.request.user
+        user.jwt_secret = uuid.uuid4()
+        user.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+"""
