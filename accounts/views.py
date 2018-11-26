@@ -68,14 +68,7 @@ class AuthInfoUpdateView(generics.UpdateAPIView):
                 else:
                     raise PermissionDenied
             except KeyError:
-                try:
-                    if self.request.data['before_email'] == self.request.user.email:
-                        instance = self.queryset.get(user_name=self.request.user)
-                        return instance
-                    else:
-                        raise PermissionDenied
-                except KeyError:
-                    raise PermissionDenied
+                raise PermissionDenied
 
 
 # ユーザ削除のView(DELETE)
