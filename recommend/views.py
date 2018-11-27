@@ -271,6 +271,56 @@ class ReviewView(APIView):
             },
                 status=status.HTTP_400_BAD_REQUEST)
 
+
+class CollaborativeFilteringView(APIView):
+
+    @action(detail=False, methods=['get'])
+    def get(self, request):
+        user_id = request.user.user_id
+        alcohol_num = Alcohol.objects.latest('alcohol_id').alcohol_id
+        data_cf = pandas.read_csv("recommend/answer_cf.csv", encoding='utf-8')
+        data_cf = data_cf.set_index('user_id')
+
+        predicted_value = data_cf.at[user_id, 'predicted_value']
+
+        if request.META.get('HTTP_PLATFORM', None) == 'iOS':
+            predicted_value_list = []
+            for i in range(alcohol_num):
+                predicted_value_list[i].update({"alcohol_id": str(i + 1), "predicted_value": predicted_value[i]})
+
+            return Response(predicted_value_list)
+        else:
+            res = OrderedDict()
+
+            for i in range(alcohol_num):
+                res.update({"predicted" + str(i + 1): {"alcohol_id": str(i + 1), "predicted_value": predicted_value[i]}})
+
+            return JsonResponse(res)
+
+    @action(detail=False, methods=['post'])
+    def post(self, request):
+        user_id = request.data["user_id"]
+        alcohol_num = Alcohol.objects.latest('alcohol_id').alcohol_id
+        data_cf = pandas.read_csv("recommend/answer_cf.csv", encoding='utf-8')
+        data_cf = data_cf.set_index('user_id')
+
+        predicted_value = data_cf.at[user_id, 'predicted_value']
+
+        if request.META.get('HTTP_PLATFORM', None) == 'iOS':
+            predicted_value_list = []
+            for i in range(alcohol_num):
+                predicted_value_list[i].update({"alcohol_id": str(i + 1), "predicted_value": predicted_value[i]})
+
+            return Response(predicted_value_list)
+        else:
+            res = OrderedDict()
+
+            for i in range(alcohol_num):
+                res.update(
+                    {"predicted" + str(i + 1): {"alcohol_id": str(i + 1), "predicted_value": predicted_value[i]}})
+
+            return JsonResponse(res)
+
 """
 class WordDividor:
     INDEX_CATEGORY = 0
