@@ -3,7 +3,7 @@
 
 from rest_framework import routers
 from .views import AlcoholViewSet, QuestionViewSet, OptionViewSet, AnswerViewSet, HistoryViewSet
-from .views import FirstQuestionView, QuestionView, RecommendView, ReviewView, HistoryView
+from .views import FirstQuestionView, QuestionView, RecommendView, ReviewView, HistoryView, CollaborativeFilteringView
 from django.conf.urls import url
 
 router = routers.DefaultRouter()
@@ -20,4 +20,5 @@ urlpatterns = [
     url(r'question/', QuestionView.as_view()),
     url(r'history/', HistoryView.as_view()),
     url(r'review/', ReviewView.as_view()),
+    url(r'cf/', CollaborativeFilteringView.as_view()),
 ]
