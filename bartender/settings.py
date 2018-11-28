@@ -87,9 +87,12 @@ JWT_AUTH = {
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
-    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_jwt.authentication.JSONWebTokenAuthentication',),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+                                       'accounts.jwt.JWTAuthentication',
+                                       ),
     'NON_FIELD_ERRORS_KEY': 'detail',
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    'JWT_PAYLOAD_HANDLER': 'accounts.jwt.jwt_payload_handler',
 }
 
 MIDDLEWARE = [
