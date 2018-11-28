@@ -1,7 +1,6 @@
 from django.db import transaction
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth import logout
 from .serializer import AccountSerializer
 from .models import Account
 
@@ -89,14 +88,10 @@ class AuthInfoDeleteView(generics.DestroyAPIView):
 
 class AuthInfoLogoutView(APIView):
     permission_classes = (permissions.IsAuthenticated,)
-    queryset = Account.objects.all()
     serializer_class = AccountSerializer
 
-    def post(self):
-        logout(self)
-        return Response(status=status.HTTP_200_OK)
 
-#    def logout_view(self):
-#        logout_then_login(self)
+
+
 
 

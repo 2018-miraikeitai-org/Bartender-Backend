@@ -3,11 +3,10 @@ from rest_framework import exceptions
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 
-
 def jwt_payload_handler(user):
     payload = default_jwt_payload_handler(user)
 
-    payload.pop('user_name')
+    payload.pop('user_id')
     payload.pop('email')
 
     payload['userkey'] = user.jwt.key

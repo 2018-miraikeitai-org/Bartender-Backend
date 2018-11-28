@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser, _user_has_perm
 )
-from django.contrib.auth.models import User
 from django.core import validators
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
@@ -61,5 +60,5 @@ class Account(AbstractBaseUser):
 
 
 class Jwt(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(Account, on_delete=models.CASCADE)
     key = models.CharField(max_length=100)
