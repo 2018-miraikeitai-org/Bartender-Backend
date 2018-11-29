@@ -59,6 +59,6 @@ class Account(AbstractBaseUser):
         swappable = 'AUTH_USER_MODEL'
 
 
-class Jwt(models.Model):
+class Jwt(AbstractBaseUser):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
     key = models.CharField(max_length=200)

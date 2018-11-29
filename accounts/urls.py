@@ -8,5 +8,5 @@ urlpatterns = [
     url(r'^mypage/$', AuthInfoGetView.as_view()),
     url(r'^auth_update/$', AuthInfoUpdateView.as_view()),
     url(r'^delete/$', AuthInfoDeleteView.as_view()),
-    url(r'^logout/$', AuthInfoLogoutView),
+    url(r'^logout/$', AuthInfoLogoutView.as_view()),
 ]

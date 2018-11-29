@@ -4,7 +4,7 @@ from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 # import random
 # import string
 
-'''
+
 def jwt_payload_handler(user):
     payload = default_jwt_payload_handler(user)
 
@@ -23,7 +23,7 @@ class JWTAuthentication(JSONWebTokenAuthentication):
             raise exceptions.AuthenticationFailed
 
         return user
-'''
+
 '''
 class AuthInfoLogoutView():
     n = random.randint(100, 200)

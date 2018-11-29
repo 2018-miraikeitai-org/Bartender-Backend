@@ -2,7 +2,7 @@ from django.db import transaction
 from django.http import Http404
 from django.core.exceptions import PermissionDenied
 from .serializer import AccountSerializer
-from .models import Account
+from .models import Account, Jwt
 
 from rest_framework import status, permissions, generics
 from rest_framework_jwt.settings import api_settings
@@ -88,15 +88,35 @@ class AuthInfoDeleteView(generics.DestroyAPIView):
         except Account.DoesNotExist:
             raise Http404
 
+'''
+class AuthInfoLogoutView(generics.UpdateAPIView):
+    key_size = random.randint(100, 200)
+    user = Jwt.user
 
-class AuthInfoLogoutView():
-    n = random.randint(100, 200)
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = AccountSerializer
+    lookup_field = 'user_name'
+    queryset = Account.objects.all()
 
-    def post_object(self, user, n):
-        user.jwt.key = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
+    def get_object(self):
+        try:
+            self.user.jwt.key = [random.choice(string.ascii_letters + string.digits) for i in range(self.key_size)]
+            instance = self.queryset.get(user_name=self.request.user)
+            return instance
+        except Account.DoesNotExist:
+            raise Http404
+'''
 
-        return user
+class AuthInfoLogoutView(generics.UpdateAPIView):
+    key_size = random.randint(100, 200)
+    user = Jwt.user
 
+    def get_object(self):
+        try:
+            self.user.jwt.key = [random.choice(string.ascii_letters + string.digits) for i in range(self.key_size)]
+            return self.user
+        except Account.DoesNotExist:
+            raise Http404
 
 
 
