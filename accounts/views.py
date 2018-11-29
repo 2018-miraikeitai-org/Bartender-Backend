@@ -10,6 +10,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.decorators import action
 
+import random
+import string
+
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
@@ -86,8 +89,13 @@ class AuthInfoDeleteView(generics.DestroyAPIView):
             raise Http404
 
 
+class AuthInfoLogoutView():
+    n = random.randint(100, 200)
 
+    def post_object(self, user, n):
+        user.jwt.key = [random.choice(string.ascii_letters + string.digits) for i in range(n)]
 
+        return user
 
 
 

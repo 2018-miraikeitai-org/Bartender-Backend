@@ -61,4 +61,4 @@ class Account(AbstractBaseUser):
 
 class Jwt(models.Model):
     user = models.OneToOneField(Account, on_delete=models.CASCADE)
-    key = models.CharField(max_length=100)
+    key = models.CharField(max_length=200)
