@@ -86,9 +86,6 @@ class AuthInfoDeleteView(generics.DestroyAPIView):
             raise Http404
 
 
-class AuthInfoLogoutView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = AccountSerializer
 
 
 

@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from rest_framework import routers
 from .views import AuthRegister, AuthInfoGetView, AuthInfoUpdateView, AuthInfoDeleteView
-from .jwt import JWTAuthentication
+from bartender.jwt import JWTAuthentication
 
 urlpatterns = [
     url(r'^register/$', AuthRegister.as_view()),

@@ -88,11 +88,11 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-                                       'accounts.jwt.JWTAuthentication',
+                                       'bartender.jwt.JWTAuthentication',
                                        ),
     'NON_FIELD_ERRORS_KEY': 'detail',
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
-    'JWT_PAYLOAD_HANDLER': 'accounts.jwt.jwt_payload_handler',
+    'JWT_PAYLOAD_HANDLER': 'bartender.jwt.jwt_payload_handler',
 }
 
 MIDDLEWARE = [
